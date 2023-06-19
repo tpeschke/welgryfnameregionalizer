@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welgryf Name Regionalizer</title>
+
+    <style>
+        #possibilities {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+
+        #possibilities div {
+            display: flex;
+            align-items: center;
+            width: 20%;
+            justify-content: space-between;
+        }
+
+        #possibilities p {
+            padding: 5px;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="wordInput" placeholder="Name to Regionalize">
+    <div id="possibilities"></div>
+</body>
+<script>
+    (function setEventListeners() {
+        document.getElementById("wordInput").addEventListener("change", function (e) {
+            const results = vowelRepace(e.target.value)
+            populateHTML(results)
+        });
+    })()
+
+    function isVowel(x) {
+        var result;
+        x = x.toUpperCase()
+        result = x == "A" || x == "E" || x == "I" || x == "O" || x == "U";
+        return result;
+    }
+
+    function capitalizeFirstLetter(word) {
+        const firstLetter = word.charAt(0)
+        const firstLetterCap = firstLetter.toUpperCase()
+        const remainingLetters = word.slice(1).toLowerCase()
+        return firstLetterCap + remainingLetters
+    }
+
+    const vowelRepace = (value) => {
+        let finalWords = {}
+        const wordArray = value.split('')
+        // Pfaets
+        let pfaetsArray = [...wordArray]
+        const pfaetsDisctionary = {
+            'a': 'a',
+            'e': 'i',
+            'i': 'e',
+            'o': 'u',
+            'u': 'y',
+            'y': 'o'
+        }
+        finalWords.pfaets = pfaetsArray.map(letter => {
+            if (isVowel(letter)) {
+                return pfaetsDisctionary[letter.toLowerCase()]
+            } else {
+                return letter
+            }
+        }).join('')
+        // Zeu
+        let zeuArray = [...wordArray]
+        const zeuDisctionary = {
+            'a': 'e',
+            'e': 'i',
+            'i': 'y',
+            'o': 'a',
+            'u': 'a',
+            'y': 'u'
+        }
+        finalWords.zeu = zeuArray.map(letter => {
+            if (isVowel(letter)) {
+                return zeuDisctionary[letter.toLowerCase()]
+            } else {
+                return letter
+            }
+        }).join('')
+        // Gilleul
+        let gilleulArray = [...wordArray]
+        const gilleulDisctionary = {
+            'a': 'e',
+            'e': 'i',
+            'i': 'y',
+            'o': 'a',
+            'u': 'u',
+            'y': 'o'
+        }
+        finalWords.gilleul = gilleulArray.map(letter => {
+            if (isVowel(letter)) {
+                return gilleulDisctionary[letter.toLowerCase()]
+            } else {
+                return letter
+            }
+        }).join('')
+        // Jutwa
+        let jutwaArray = [...wordArray]
+        const jutwaDisctionary = {
+            'a': 'e',
+            'e': 'i',
+            'i': 'i',
+            'o': 'u',
+            'u': 'o',
+            'y': 'a'
+        }
+        finalWords.jutwa = jutwaArray.map(letter => {
+            if (isVowel(letter)) {
+                return jutwaDisctionary[letter.toLowerCase()]
+            } else {
+                return letter
+            }
+        }).join('')
+        // Knachdt
+        let knachdtArray = [...wordArray]
+        const knachdtDisctionary = {
+            'a': 'a',
+            'e': 'i',
+            'i': 'o',
+            'o': 'u',
+            'u': 'y',
+            'y': 'e'
+        }
+        finalWords.knachdt = knachdtArray.map(letter => {
+            if (isVowel(letter)) {
+                return knachdtDisctionary[letter.toLowerCase()]
+            } else {
+                return letter
+            }
+        }).join('')
+        // Drangsdt
+        let drangsdtArray = [...wordArray]
+        const drangsdtDisctionary = {
+            'a': 'y',
+            'e': 'a',
+            'i': 'e',
+            'o': 'i',
+            'u': 'o',
+            'y': 'u'
+        }
+        finalWords.drangsdt = drangsdtArray.map(letter => {
+            if (isVowel(letter)) {
+                return drangsdtDisctionary[letter.toLowerCase()]
+            } else {
+                return letter
+            }
+        }).join('')
+        // Luss
+        let lussArray = [...wordArray]
+        const lussDisctionary = {
+            'a': 'e',
+            'e': 'o',
+            'i': 'u',
+            'o': 'y',
+            'u': 'i',
+            'y': 'a'
+        }
+        finalWords.luss = lussArray.map(letter => {
+            if (isVowel(letter)) {
+                return lussDisctionary[letter.toLowerCase()]
+            } else {
+                return letter
+            }
+        }).join('')
+
+        return finalWords
+    }
+
+    const populateHTML = (results) => {
+        const parentDiv = document.getElementById('possibilities')
+        parentDiv.innerHTML = ''
+        for (const key in results) {
+            let div = document.createElement('div')
+
+            let header = document.createElement('h3')
+            header.append(document.createTextNode(`${capitalizeFirstLetter(key)}`))
+            div.appendChild(header)
+            let paragraph = document.createElement('p')
+            paragraph.append(document.createTextNode(`${capitalizeFirstLetter(results[key])}`))
+            div.appendChild(paragraph)
+
+            parentDiv.appendChild(div)
+        }
+    }
+</script>
+
+</html>
